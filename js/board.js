@@ -7,6 +7,8 @@ import { handleAutoResolveSchedulingForCell, resetAllRegions, renderRegionList }
 import { resetAllSaves, renderSaveList } from "./saves.js";
 import { showResumeRestartModal } from "./disqualify.js";
 import { hasRevealedCells } from "./actions.js";
+import { getTop10 } from "./leaderBoard.js";
+import { renderLeaderBoard } from "./leaderBoard.js";
 
 export function initBoard() {
   if (!dom.gameBoard) return;
@@ -329,6 +331,15 @@ export async function loadPuzzle(pNumber) {
   // Refresh the UI to display restored regions and saves
   renderRegionList();
   renderSaveList();
+
+  getTop10(appState.curPuzzle.name).then((data) => {
+    if (data.ok) {
+      appState.leaderBoard.topScores = data.top;
+      renderLeaderBoard();
+    } else {
+      console.error("Failed to fetch top scores:", data.error);
+    }
+  });
 }
 
 function resumePuzzle(inProgressPuzzle) {
