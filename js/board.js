@@ -93,12 +93,12 @@ export function setCellMark(r, c, mark) {
  * Color clue cells keep their c2/c3 background.
  */
 export function cellClickEvent(event) {
-  if (hasRevealedCells()) {
+  /*if (hasRevealedCells()) {
     document.querySelectorAll('.incorrect-reveal').forEach(el => {
       el.classList.remove('incorrect-reveal');
     });
     hasRevealedCells(true, false);
-  }
+  }*/
 
   const cell = event.currentTarget;
   let isColorClue = false;
