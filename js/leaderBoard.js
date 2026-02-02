@@ -1,4 +1,4 @@
-const ENDPOINT = "https://script.google.com/macros/s/AKfycbyvoBz7c9MAGu3DSD7PHJ3mY8nJphiPiXVdCK3vdaVfUfPEg3GUdtb9c6rotBI7fcxH/exec";
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbwdJrY_eWAYytQwzx9cVF8Qfw2sZr2oGLZsWMHO5YMNTI4UxhJVa8D01bEBt1g9zbvv/exec";
 
 export async function getTop10(puzzleId) {
     const url = `${ENDPOINT}?action=top&puzzle_id=${encodeURIComponent(puzzleId)}`;
@@ -14,10 +14,17 @@ export async function getTop10(puzzleId) {
 
 export async function submitScore({ puzzleId, initials, timeMs, meta, pastProgress }) {
     try {
+        const params = new URLSearchParams();
+        params.append('action', 'submit');
+        params.append('puzzle_id', puzzleId);
+        params.append('initials', initials);
+        params.append('time_ms', timeMs);
+        params.append('meta', meta || '');
+        params.append('past_progress', pastProgress);
+        
         const res = await fetch(ENDPOINT, {
             method: "POST",
-            headers: { "Content-Type": "text/plain" },
-            body: JSON.stringify({ action: "submit", puzzle_id: puzzleId, initials, time_ms: timeMs, meta, past_progress: pastProgress })
+            body: params
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return await res.json();
