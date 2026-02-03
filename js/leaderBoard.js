@@ -5,6 +5,7 @@ export function getTop10(puzzleId) {
         const callbackName = "ts_cb_" + Date.now() + Math.random().toString(16).slice(2);
 
         window[callbackName] = (data) => {
+            console.log("JSONP DATA:", data);
             delete window[callbackName];
             document.body.removeChild(script);
             resolve(data);
