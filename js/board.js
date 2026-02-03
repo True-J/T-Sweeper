@@ -333,10 +333,8 @@ export async function loadPuzzle(pNumber) {
   renderSaveList();
   console.log(puzzleName);
   getTop10(puzzleName).then((data) => {
-    console.log(data);
     if (data.ok) {
-      appState.leaderBoard.topScores = data.top;
-      renderLeaderBoard();
+      renderLeaderBoard(data.top);
     } else {
       console.error("Failed to fetch top scores:", data.error);
     }
