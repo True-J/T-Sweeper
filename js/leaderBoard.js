@@ -1,4 +1,4 @@
-const ENDPOINT = "https://script.google.com/macros/s/AKfycbwdJrY_eWAYytQwzx9cVF8Qfw2sZr2oGLZsWMHO5YMNTI4UxhJVa8D01bEBt1g9zbvv/exec";
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbxP6xJDqTnkYsEGFYyEzUhc2ecKBfJvweJhExSFg9oBlg_zRac3f0XXtL6WaVFr9Xit/exec";
 
 export async function getTop10(puzzleId) {
     try {
