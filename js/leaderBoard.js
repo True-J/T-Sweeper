@@ -3,6 +3,7 @@ const ENDPOINT = "https://script.google.com/macros/s/AKfycbwdJrY_eWAYytQwzx9cVF8
 export async function getTop10(puzzleId) {
     try {
         const res = await fetch(`${ENDPOINT}?action=top&puzzle_id=${encodeURIComponent(puzzleId)}`);
+        console.log(res);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return await JSON.parse(res);
     } catch (err) {
