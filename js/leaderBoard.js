@@ -1,20 +1,31 @@
 const ENDPOINT = "https://script.google.com/macros/s/AKfycby9kUQZ6iGHSMtRkmXrnq--puAnK2SSd95M84cbpKFExMcz9xQhzArtEMjlMpbEPP4u/exec";
 
 export function getTop10(puzzleId) {
-    return new Promise((resolve) => {
-        const callbackName = "ts_cb_" + Date.now() + Math.random().toString(16).slice(2);
+  return new Promise((resolve, reject) => {
+    const callbackName =
+      "ts_cb_" + Date.now() + "_" + Math.random().toString(16).slice(2);
 
-        window[callbackName] = (data) => {
-            console.log("JSONP DATA:", data);
-            delete window[callbackName];
-            document.body.removeChild(script);
-            resolve(data);
-        };
+    const script = document.createElement("script");
 
-        //const script = document.createElement("script");
-        //script.src = `${ENDPOINT}?action=top&puzzle_id=${encodeURIComponent(puzzleId)}&callback=${callbackName}`;
-        //document.body.appendChild(script);
-    });
+    window[callbackName] = (data) => {
+      console.log("JSONP DATA:", data);
+      try { delete window[callbackName]; } catch {}
+      try { script.remove(); } catch {}
+      resolve(data);
+    };
+
+    script.onerror = () => {
+      try { delete window[callbackName]; } catch {}
+      try { script.remove(); } catch {}
+      reject(new Error("JSONP script failed to load"));
+    };
+
+    script.src =
+      `${ENDPOINT}?action=top&puzzle_id=${encodeURIComponent(puzzleId)}` +
+      `&callback=${encodeURIComponent(callbackName)}`;
+
+    document.head.appendChild(script);
+  });
 }
 
 export async function submitScore({ puzzleId, initials, timeMs, meta, pastProgress }) {
