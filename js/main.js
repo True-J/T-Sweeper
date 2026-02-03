@@ -39,41 +39,8 @@ export function getDailyPuzzleNumber() {
   return daysDiff;
 }
 
-const DAILY_RUN_KEY = "ms_daily_run";
-
-function getStoredDailyRun() {
-  try {
-    return JSON.parse(localStorage.getItem(DAILY_RUN_KEY) || "null");
-  } catch {
-    return null;
-  }
-}
-
-function setStoredDailyRun(run) {
-  localStorage.setItem(DAILY_RUN_KEY, JSON.stringify(run));
-}
-
 dom.dailyPuzzleBtn?.addEventListener("click", async () => {
   const dailyNumber = getDailyPuzzleNumber();
-  const run = null //getStoredDailyRun();
-
-  // Daily run already started → DO NOT reload, DO NOT restart timer
-  if (run && run.puzzleNumber === dailyNumber && run.inProgress) {
-    setView("puzzleGameBox");
-    return;
-  }
-
-  // First time today → start locked daily run
-  const newRun = {
-    puzzleNumber: dailyNumber,
-    startedAt: Date.now(),
-    inProgress: true,
-    viewedSolution: false,
-  };
-  setStoredDailyRun(newRun);
-  appState.dailyRun = newRun;
-
-  // Async load, timer allowed to start ONCE
   await loadPuzzle(dailyNumber);
   setView("puzzleGameBox");
 });
