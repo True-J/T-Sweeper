@@ -1,4 +1,4 @@
-const ENDPOINT = "https://script.google.com/macros/s/AKfycbxnE9MmjhOh4nT45LsTv92ZVeaRQopRosxfpJdA85eICrYOvTX0KaLl3cwBzyqy5GPN/exec";
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbxvSqTSeFftwmJ7qtwGr5ATeRVYKl5zW0GSx09mZDEVrRtIUW83KxQmJ5DKlYTiTWNl/exec";
 
 export function getTop10(puzzleId) {
     return new Promise((resolve) => {
