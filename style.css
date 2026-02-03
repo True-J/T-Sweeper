@@ -706,4 +706,37 @@ body {
     .modal {
         width: min(360px, calc(100% - 24px));
     }
+
+    /* Make puzzle area stack */
+    .puzzleGameBox {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Ensure board is top, controls below */
+    .board-area {
+        order: 1;
+        width: 100%;
+    }
+
+    .control-area {
+        order: 2;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap);
+    }
+
+    /* Buttons full-width and stacked */
+    .control-area button,
+    .button-stack {
+        width: 100%;
+    }
+
+    /* Notes and other grid children should stack */
+    .right-grid {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap);
+    }
 }

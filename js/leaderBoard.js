@@ -1,15 +1,19 @@
 const ENDPOINT = "https://script.google.com/macros/s/AKfycbxP6xJDqTnkYsEGFYyEzUhc2ecKBfJvweJhExSFg9oBlg_zRac3f0XXtL6WaVFr9Xit/exec";
 
-export async function getTop10(puzzleId) {
-    try {
-        const res = await fetch(`${ENDPOINT}?action=top&puzzle_id=${encodeURIComponent(puzzleId)}`);
-        console.log(res);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return await JSON.parse(res);
-    } catch (err) {
-        console.error('Failed to fetch top scores:', err);
-        return { ok: false, top: [], error: err.message };
-    }
+export function getTop10(puzzleId) {
+    return new Promise((resolve) => {
+        const callbackName = "ts_cb_" + Date.now() + Math.random().toString(16).slice(2);
+
+        window[callbackName] = (data) => {
+            delete window[callbackName];
+            document.body.removeChild(script);
+            resolve(data);
+        };
+
+        const script = document.createElement("script");
+        script.src = `${ENDPOINT}?action=top&puzzle_id=${encodeURIComponent(puzzleId)}&callback=${callbackName}`;
+        document.body.appendChild(script);
+    });
 }
 
 export async function submitScore({ puzzleId, initials, timeMs, meta, pastProgress }) {
@@ -21,7 +25,7 @@ export async function submitScore({ puzzleId, initials, timeMs, meta, pastProgre
         params.append('time_ms', timeMs);
         params.append('meta', meta || '');
         params.append('past_progress', pastProgress);
-        
+
         const res = await fetch(ENDPOINT, {
             method: 'POST',
             headers: {
@@ -50,7 +54,7 @@ const TOP_RETURN = 10;
 
 function doGet(e) {
     const action = (e.parameter.action || "").toLowerCase();
-    
+
     // Handle preflight requests
     if (e.requestMethod === "OPTIONS") {
         return ContentService
@@ -59,7 +63,7 @@ function doGet(e) {
             .setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
             .setHeader("Access-Control-Allow-Headers", "Content-Type");
     }
-    
+
     if (action === "top") return handleTop(e);
     return json({ ok: false, error: "unknown_action" });
 }
@@ -93,7 +97,7 @@ function handleTop(e) {
 
     const sheet = getSheet_();
     const values = sheet.getDataRange().getValues();
-    
+
     // Find row for this puzzle
     let puzzleRow = null;
     for (let i = 0; i < values.length; i++) {
@@ -102,9 +106,9 @@ function handleTop(e) {
             break;
         }
     }
-    
+
     if (!puzzleRow) return json({ ok: true, puzzle_id: puzzleId, top: [] });
-    
+
     // Parse entries: columns B, C, D (name, time, ip), E, F, G (name, time, ip), etc.
     const entries = [];
     for (let col = 1; col < puzzleRow.length; col += 3) {
@@ -114,7 +118,7 @@ function handleTop(e) {
             entries.push({ initials: name, time_ms: time });
         }
     }
-    
+
     return json({ ok: true, puzzle_id: puzzleId, top: entries.slice(0, TOP_RETURN) });
 }
 
@@ -123,13 +127,13 @@ function handleSubmit(body, clientIp) {
     const initials = sanitizeInitials(body.initials);
     const timeMs = sanitizeTimeMs(body.time_ms);
     const pastProgress = typeof body.past_progress === "number" ? Math.floor(body.past_progress) : 0;
-    
+
     if (!puzzleId) return json({ ok: false, error: "bad_puzzle_id" });
     if (!initials) return json({ ok: false, error: "bad_initials" });
     if (timeMs === null) return json({ ok: false, error: "bad_time" });
 
     const meta = sanitizeMeta(body.meta);
-    
+
     // Store in scores sheet and IP sheet
     return submitScoreAndLog_(puzzleId, initials, timeMs, clientIp, meta, pastProgress);
 }
@@ -193,7 +197,7 @@ function submitScoreAndLog_(puzzleId, initials, timeMs, clientIp, meta, pastProg
     const sheet = getSheet_();
     const ipSheet = getIpSheet_();
     const now = new Date();
-    
+
     // Find or create row for this puzzle in scores sheet
     const values = sheet.getDataRange().getValues();
     let puzzleRowIdx = -1;
@@ -203,16 +207,16 @@ function submitScoreAndLog_(puzzleId, initials, timeMs, clientIp, meta, pastProg
             break;
         }
     }
-    
+
     if (puzzleRowIdx === -1) {
         // Create new row
         puzzleRowIdx = values.length + 1;
         sheet.getRange(puzzleRowIdx, 1).setValue(puzzleId);
     }
-    
+
     // Read current row to find insertion point and sort
     const rowData = sheet.getRange(puzzleRowIdx, 1, 1, sheet.getLastColumn()).getValues()[0];
-    
+
     // Parse entries: [name, time, ip], [name, time, ip], etc.
     const entries = [];
     for (let col = 1; col < rowData.length; col += 3) {
@@ -220,25 +224,25 @@ function submitScoreAndLog_(puzzleId, initials, timeMs, clientIp, meta, pastProg
             entries.push({ name: rowData[col], time: rowData[col + 1], ip: rowData[col + 2] || "" });
         }
     }
-    
+
     // Add new entry
     entries.push({ name: initials, time: timeMs, ip: clientIp });
-    
+
     // Sort by time and keep top 30
     entries.sort((a, b) => a.time - b.time);
     entries.splice(MAX_PER_PUZZLE);
-    
+
     // Write back to sheet
     const newRowData = [puzzleId];
     for (const entry of entries) {
         newRowData.push(entry.name, entry.time, entry.ip);
     }
     sheet.getRange(puzzleRowIdx, 1, 1, newRowData.length).setValues([newRowData]);
-    
+
     // Log to IP sheet
     const difficulty = extractDifficulty_(puzzleId);
     ipSheet.appendRow([clientIp, puzzleId, difficulty, timeMs, initials, pastProgress, now]);
-    
+
     return json({ ok: true, rank: entries.findIndex(e => e.name === initials && e.time === timeMs) + 1 });
 }
 
