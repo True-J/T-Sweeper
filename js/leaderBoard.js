@@ -8,7 +8,6 @@ export function getTop10(puzzleId) {
     const script = document.createElement("script");
 
     window[callbackName] = (data) => {
-      console.log("JSONP DATA:", data);
       try { delete window[callbackName]; } catch {}
       try { script.remove(); } catch {}
       resolve(data);
@@ -55,7 +54,6 @@ export async function submitScore({ puzzleId, initials, timeMs, meta, pastProgre
 
 export function renderLeaderBoard(scoresArray) {
     for (let i=0; i<scoresArray.length; i++) {
-      document.getElementById("rank" + i).textContent = (i + 1);
         document.getElementById("name" + i).textContent = scoresArray[i].initials;
         const totalSec = Math.floor(scoresArray[i].time_ms / 1000);
         const hh = String(Math.floor(totalSec / 3600)).padStart(2, "0");
@@ -64,7 +62,6 @@ export function renderLeaderBoard(scoresArray) {
         document.getElementById("time" + i).textContent = `${hh}:${mm}:${ss}`;
     }
     for (let i=scoresArray.length; i<=9; i++) {
-        document.getElementById("rank" + i).textContent = "";
         document.getElementById("name" + i).textContent = "";
         document.getElementById("time" + i).textContent = "";
     }
