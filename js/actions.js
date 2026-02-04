@@ -65,10 +65,7 @@ export function wireCheckSolutionButton() {
       // Submit to leaderboard if not disqualified
       if (appState.curPuzzle.isLeaderboardAttempt) {
         var initials = prompt("Enter your 3-letter initials for the leaderboard:", "");
-        initials = (initials ? initials : "") + "---";
-        initials = initials.slice(3);
         if (initials && initials.trim().length === 3) {
-          initials = initials.trim().toUpperCase();
           const pastProgressCount = Object.keys(pastProgress.completedPuzzles).length;
           try {
             await submitScore({
