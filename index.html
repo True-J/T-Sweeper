@@ -99,10 +99,11 @@
               <div id="mineHud">0 / 0 Mines</div>
               <div id="timeHud">00:00:00</div>
             </div>
-
             <div class="button-col">
               <div class="button-stack">
-                <div id="regionResolveMsg" class="resolve-msg" style="display:none;"></div>
+                <div id="invisibleHolderForSpace" style="height: 50px;">
+                  <div id="regionResolveMsg" class="resolve-msg" style="display:none;"></div>
+                </div>
                 <button id="createRegionBtn">Create Region</button>
                 <button id="deleteRegionBtn">Delete Region</button>
 
@@ -196,6 +197,7 @@
         </p>
         <br><br>
       </div>
+      <br><p>--------------------------</p><br>
       <div class="rule-examples">
         <!-- Example 1 -->
         <!-- Left grid -->
@@ -229,9 +231,7 @@
         <!-- Text -->
         <div class="rule-textex">
           <p>
-            This puzzle has 2 out of 7 mines located, with 5 left to find.
-            <br>Cell A violates rule 2. It should be a 1.
-            <br>Cell B also violates rule 2. It should be a 5.
+            This puzzle has 2 out of 7 mines located, with 5 left to find. Cell A violates rule 2. It should be a 1. Cell B also violates rule 2. It should be a 5.
           </p>
         </div>
         <!-- Right grid -->
@@ -263,7 +263,7 @@
           <div class="cell ce">f</div>
         </div>
       </div>
-      <br>
+      <br><p>--------------------------</p><br>
       <div class="rule-examples">
         <!-- Example 2 -->
         <!-- Left grid -->
@@ -297,11 +297,7 @@
         <!-- Text -->
         <div class="rule-textex">
           <p>
-            This puzzle has 3 out of 6 mines located, with 3 left to find.
-            <br>Cell A violates rule 5. It should be a 3.
-            <br>Cell B violates rule 2. It should be a 1.
-            <br>Cell C violates rule 3. It should be a Gray Flag.
-            <br>Both Cells D violate rule 4. They should be a 3 and a 2.
+            This puzzle has 3 out of 6 mines located, with 3 left to find. Cell A violates rule 5. It should be a 3. Cell B violates rule 2. It should be a 1. Cell C violates rule 3. It should be a Gray Flag. Both Cells D violate rule 4. They should be a 3 and a 2.
           </p>
         </div>
         <!-- Right grid -->
@@ -333,7 +329,7 @@
           <div class="cell c1">1</div>
         </div>
       </div>
-      <br>
+      <br><p>--------------------------</p><br>
       <div class="rule-examples">
         <!-- Example 3 -->
         <!-- Left grid -->
@@ -367,10 +363,7 @@
         <!-- Text -->
         <div class="rule-textex">
           <p>
-            This puzzle has 0 out of 6 mines located, with 6 left to find.
-            <br>Cell A violates rule 4. It cannot be a mine since it would see 4 mines.
-            <br>Cell B violates rule 4. It should be safe since the rule is a 0.
-            <br>These changes adjust the other clues, which is reflected in the grid to the right.
+            This puzzle has 0 out of 6 mines located, with 6 left to find. Cell A violates rule 4. It cannot be a mine since it would see 4 mines. Cell B violates rule 4. It should be safe since the rule is a 0. These changes adjust the other clues, which is reflected in the solved bottom grid.
           </p>
         </div>
         <!-- Right grid -->
@@ -402,7 +395,7 @@
           <div class="cell c0">0</div>
         </div>
       </div>
-      <br>
+      <br><p>--------------------------</p><br>
       <div class="rule-examples">
         <!-- Example 4 -->
         <!-- Left grid -->
@@ -436,11 +429,7 @@
         <!-- Text -->
         <div class="rule-textex">
           <p>
-            This puzzle has 3 out of 6 mines located, with 3 left to find.
-            <br>This is a valid puzzle, and it shows how Color Clues work.
-            <br>They are not required to be shown from rules 2, 3, or 5.
-            <br>Color Clues can be a mine or safe. They do not reveal what
-            <br>is in its own cell, but they do reveal the clue color.
+            This puzzle has 3 out of 6 mines located, with 3 left to find. This is a valid puzzle, and it shows how Color Clues work. They are not required to be shown from rules 2, 3, or 5. Color Clues can be a mine or safe. They do not reveal what is in its own cell, but they do reveal the clue color.
           </p>
         </div>
         <!-- Right grid -->
@@ -472,6 +461,7 @@
           <div class="cell c2">2</div>
         </div>
       </div>
+      <br><p>--------------------------</p><br>
       <p class="rule-text">
         I hope anyone who sees this enjoys these puzzles I made. It took a lot of time and effort to<br>
         make the puzzle creation software. So, I really appreciate anyone who plays them. Thanks!<br>
@@ -571,59 +561,56 @@
     </div>
   </div>
   <div class="page-footer" id="pageFooter">
-    <div class="sidebar-footer">
-      <div class="lb" id="leaderboardm">
-        <div class="lb-title" id="leaderboardTitle">
-          Leaderboard<br>
-          <div id="leaderboardNamem">Puzzle 0</div>
-        </div>
-        <div class="lb-grid" id="leaderboardGrid">
-          <!-- Row 0 -->
-          <div class="lb-cell lb-rank" id="rank0m">1</div>
-          <div class="lb-cell lb-name" id="name0m"></div>
-          <div class="lb-cell lb-time" id="time0m"></div>
-          <!-- Row 1 -->
-          <div class="lb-cell lb-rank" id="rank1m">2</div>
-          <div class="lb-cell lb-name" id="name1m"></div>
-          <div class="lb-cell lb-time" id="time1m"></div>
-          <!-- Row 2 -->
-          <div class="lb-cell lb-rank" id="rank2m">3</div>
-          <div class="lb-cell lb-name" id="name2m"></div>
-          <div class="lb-cell lb-time" id="time2m"></div>
-          <!-- Row 3 -->
-          <div class="lb-cell lb-rank" id="rank3m">4</div>
-          <div class="lb-cell lb-name" id="name3m"></div>
-          <div class="lb-cell lb-time" id="time3m"></div>
-          <!-- Row 4 -->
-          <div class="lb-cell lb-rank" id="rank4m">5</div>
-          <div class="lb-cell lb-name" id="name4m"></div>
-          <div class="lb-cell lb-time" id="time4m"></div>
-          <!-- Row 5 -->
-          <div class="lb-cell lb-rank" id="rank5m">6</div>
-          <div class="lb-cell lb-name" id="name5m"></div>
-          <div class="lb-cell lb-time" id="time5m"></div>
-          <!-- Row 6 -->
-          <div class="lb-cell lb-rank" id="rank6m">7</div>
-          <div class="lb-cell lb-name" id="name6m"></div>
-          <div class="lb-cell lb-time" id="time6m"></div>
-          <!-- Row 7 -->
-          <div class="lb-cell lb-rank" id="rank7m">8</div>
-          <div class="lb-cell lb-name" id="name7m"></div>
-          <div class="lb-cell lb-time" id="time7m"></div>
-          <!-- Row 8 -->
-          <div class="lb-cell lb-rank" id="rank8m">9</div>
-          <div class="lb-cell lb-name" id="name8m"></div>
-          <div class="lb-cell lb-time" id="time8m"></div>
-          <!-- Row 9 -->
-          <div class="lb-cell lb-rank" id="rank9m">10</div>
-          <div class="lb-cell lb-name" id="name9m"></div>
-          <div class="lb-cell lb-time" id="time9m"></div>
-        </div>
-      </div>  
-      <br>
-      <p>Created by Jacob Truesdale</p>
-      <p>Version 1.0</p>
-    </div>
+    <div class="lb" id="leaderboardm">
+      <div class="lb-title" id="leaderboardTitle">
+        Leaderboard<br>
+        <div id="leaderboardNamem">Puzzle 0</div>
+      </div>
+      <div class="lb-grid" id="leaderboardGrid">
+        <!-- Row 0 -->
+        <div class="lb-cell lb-rank" id="rank0m">1</div>
+        <div class="lb-cell lb-name" id="name0m"></div>
+        <div class="lb-cell lb-time" id="time0m"></div>
+        <!-- Row 1 -->
+        <div class="lb-cell lb-rank" id="rank1m">2</div>
+        <div class="lb-cell lb-name" id="name1m"></div>
+        <div class="lb-cell lb-time" id="time1m"></div>
+        <!-- Row 2 -->
+        <div class="lb-cell lb-rank" id="rank2m">3</div>
+        <div class="lb-cell lb-name" id="name2m"></div>
+        <div class="lb-cell lb-time" id="time2m"></div>
+        <!-- Row 3 -->
+        <div class="lb-cell lb-rank" id="rank3m">4</div>
+        <div class="lb-cell lb-name" id="name3m"></div>
+        <div class="lb-cell lb-time" id="time3m"></div>
+        <!-- Row 4 -->
+        <div class="lb-cell lb-rank" id="rank4m">5</div>
+        <div class="lb-cell lb-name" id="name4m"></div>
+        <div class="lb-cell lb-time" id="time4m"></div>
+        <!-- Row 5 -->
+        <div class="lb-cell lb-rank" id="rank5m">6</div>
+        <div class="lb-cell lb-name" id="name5m"></div>
+        <div class="lb-cell lb-time" id="time5m"></div>
+        <!-- Row 6 -->
+        <div class="lb-cell lb-rank" id="rank6m">7</div>
+        <div class="lb-cell lb-name" id="name6m"></div>
+        <div class="lb-cell lb-time" id="time6m"></div>
+        <!-- Row 7 -->
+        <div class="lb-cell lb-rank" id="rank7m">8</div>
+        <div class="lb-cell lb-name" id="name7m"></div>
+        <div class="lb-cell lb-time" id="time7m"></div>
+        <!-- Row 8 -->
+        <div class="lb-cell lb-rank" id="rank8m">9</div>
+        <div class="lb-cell lb-name" id="name8m"></div>
+        <div class="lb-cell lb-time" id="time8m"></div>
+        <!-- Row 9 -->
+        <div class="lb-cell lb-rank" id="rank9m">10</div>
+        <div class="lb-cell lb-name" id="name9m"></div>
+        <div class="lb-cell lb-time" id="time9m"></div>
+      </div>
+    </div>  
+    <br>
+    <p>Created by Jacob Truesdale</p>
   </div>
 </body>
 <script type="module" src="js/main.js"></script>

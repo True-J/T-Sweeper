@@ -7,6 +7,9 @@ import { wireSaveButtons, renderSaveList } from "./saves.js";
 import { wireRegionButtons, renderRegionList, applyRegionActiveHighlight } from "./regions.js";
 import { wireCheckSolutionButton, wireResetProgressButton } from "./actions.js";
 
+// Detect if mobile or not
+export const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+
 // Load pastProgress from localStorage on page load
 loadPastProgressFromStorage();
 
@@ -39,8 +42,8 @@ export function getDailyPuzzleNumber() {
 
 dom.dailyPuzzleBtn?.addEventListener("click", async () => {
   const dailyNumber = getDailyPuzzleNumber();
-  await loadPuzzle(dailyNumber);
   setView("puzzleGameBox");
+  await loadPuzzle(dailyNumber);
 });
 
 dom.rulesBtn?.addEventListener("click", () => setView("rulesList"));

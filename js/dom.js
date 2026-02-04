@@ -21,6 +21,7 @@ export const dom = {
   dailyPuzzleBtn: byId("dailyPuzzleBtn"),
   menuBtn: byId("menuBtn"),
   leaderBoard: byId("leaderboard"),
+  leaderBoardM: byId("leaderboardm"),
   leaderBoardName: byId("leaderboardName"),
   leaderBoardNameMobile: byId("leaderboardNamem"),
 

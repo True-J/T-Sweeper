@@ -185,14 +185,27 @@ body {
 /* ---------- Rules examples ---------- */
 .rule-examples {
     display: grid;
-    grid-template-columns: 162px 50% 162px;
+    grid-template-columns: 162px 1fr; /* grids column + text column */
+    grid-template-rows: auto auto;   /* two rows for the two grids */
     gap: 20px;
     align-items: center;
 }
 
 .rule-textex {
+    grid-column: 2;     /* right column */
+    grid-row: 1 / span 2; /* span both rows */
     text-align: left;
     padding: 50px;
+}
+
+.rule-examples .smallMS-grid:nth-of-type(1) {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.rule-examples .smallMS-grid:nth-of-type(2) {
+    grid-column: 1;
+    grid-row: 2;
 }
 
 .smallMS-grid {
@@ -546,25 +559,6 @@ body {
     min-height: 100dvh;
 }
 
-/* Tablet + down */
-@media (max-width: 900px) {
-    :root {
-        --pad: 16px;
-    }
-
-    .content {
-        padding: var(--pad);
-    }
-
-    /* Make overlays use the available space instead of fixed offsets */
-    .panel,
-    .puzzleGameBox {
-        top: var(--pad);
-        left: var(--pad);
-        width: calc(100% - (2 * var(--pad)));
-    }
-}
-
 .page-footer {
     display: none;
 }
@@ -578,7 +572,7 @@ body {
         --gap: 10px;
 
         /* keep cells usable on phones; adjust as needed */
-        --cell: 24px;
+        --cell: 22px;
     }
 
     /* Let the document scroll normally on mobile */
@@ -610,7 +604,7 @@ body {
     .sidebar button {
         width: auto;
         margin-bottom: 0;
-        font-size: 16px;
+        font-size: 14px;
         white-space: nowrap;
         flex: 0 0 auto;
 
@@ -626,30 +620,29 @@ body {
         display: block;
     }
 
+    #leaderboardm {
+        display: none;
+    }
+
     /* Content should flow under the top bar */
     .content {
         padding: var(--pad);
         overflow: visible;
-        /* important: stop inner scroll fights */
+        height: 100%;
     }
 
     /* ---------------------------------------
      Puzzle selection panel (tabs on top, grid scrolls)
      --------------------------------------- */
     .panel {
-        position: fixed;
-        /* top bar height (approx) + padding */
-        top: 80px;
+        position: absolute;
+        top: 20px;
         left: var(--pad);
         right: var(--pad);
-        bottom: 80px;
+        bottom: 20px;
 
         width: auto;
         height: auto;
-
-        z-index: 5000;
-        position: fixed;
-        /* not absolute */
     }
 
     .panel-inner {
@@ -717,13 +710,11 @@ body {
         z-index: auto;
 
         width: 100%;
-        max-width: 420px;
         /* keeps it centered like your mock */
         margin: var(--pad) auto 0;
 
         height: auto;
-        /* key fix */
-        display: flex !important;
+        display: flex;
         /* keep mobile layout */
         flex-direction: column;
         overflow: hidden;
@@ -735,16 +726,13 @@ body {
         border-right: 0;
         border-bottom: 3px solid black;
 
-        overflow: auto;
-        /* allows panning if too wide */
-        -webkit-overflow-scrolling: touch;
-
         padding: 10px;
 
         display: flex;
         justify-content: center;
         /* centers board when it fits */
         align-items: flex-start;
+        width: 100%;
 
         /* do NOT add touch-action here if you want pinch-zoom */
     }
@@ -765,7 +753,7 @@ body {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-areas:
-            "hud hud"
+            "hud notes"
             "buttons notes";
         gap: 12px;
         align-items: start;
@@ -775,6 +763,7 @@ body {
         grid-area: hud;
         display: flex;
         justify-content: space-between;
+        width: 45%;
     }
 
     .button-col {
@@ -783,8 +772,10 @@ body {
 
     .notes-col {
         grid-area: notes;
+        grid-row: span 2;
         margin-top: 0;
         padding-top: 0;
+        height: 100%;
     }
 
     /* HUD spans full width above both columns */
@@ -840,7 +831,6 @@ body {
         background-color: #00a6e8;
         border-top: 4px solid black;
         padding: 14px 12px;
-        margin-top: 16px;
     }
 
     /* Show footer content on mobile */

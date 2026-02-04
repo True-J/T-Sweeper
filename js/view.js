@@ -1,7 +1,7 @@
 // js/view.js
 import { dom } from "./dom.js";
 import { appState, pastProgress, isPuzzleCompleted, getPuzzleCompletionTime } from "./state.js";
-import { getDailyPuzzleNumber } from "./main.js";
+import { getDailyPuzzleNumber, isMobile } from "./main.js";
 
 const viewEls = {
   panel: dom.panel,
@@ -15,7 +15,8 @@ export function setView(viewName) {
   Object.values(viewEls).forEach((el) => el && (el.style.display = "none"));
 
   // sidebar-only buttons visible while playing
-  if (dom.leaderBoard) dom.leaderBoard.style.display = "none";
+  dom.leaderBoardM.style.display = "none";
+  dom.leaderBoard.style.display = "none";
 
   if (viewName === "panel") {
     dom.panel && (dom.panel.style.display = "block");
@@ -28,10 +29,18 @@ export function setView(viewName) {
   }
 
   if (viewName === "puzzleGameBox") {
-    dom.puzzleGameBox && (dom.puzzleGameBox.style.display = "grid");
-    dom.leaderBoard.style.display = "block";
+    if (isMobile) {
+      dom.puzzleGameBox.style.display = "flex";
+    } else {
+      dom.puzzleGameBox.style.display = "grid";
+    }
+    if (isMobile) {
+      dom.leaderBoardM.style.display = "block";
+    } else {
+      dom.leaderBoard.style.display = "block";
+    }
     appState.playingPuzzle = true;
-    
+
     return;
   }
 }
@@ -45,7 +54,7 @@ export var thumbnails = {
 
 export async function loadThumbnails() {
   const DIFFICULTIES = ["Easy", "Medium", "Hard", "Expert"];
-  for (let i=0; i<DIFFICULTIES.length; i++){
+  for (let i = 0; i < DIFFICULTIES.length; i++) {
     thumbnails[DIFFICULTIES[i]] = [];
   }
   const maxPuzzle = `Puzzle_${getDailyPuzzleNumber()}`;
@@ -57,10 +66,10 @@ export async function loadThumbnails() {
     console.error("Failed to load puzzle list:", err);
   }
   let maxNum = 0;
-  for (let i=0; i<DIFFICULTIES.length; i++) {
+  for (let i = 0; i < DIFFICULTIES.length; i++) {
     let found = false;
     let searchTerm = `${DIFFICULTIES[i]}/${maxPuzzle}`;
-    for (let j=0; j<puzzleList.length; j++) {
+    for (let j = 0; j < puzzleList.length; j++) {
       found = (puzzleList[j] == searchTerm)
       if (found) {
         maxNum = j;
@@ -69,7 +78,7 @@ export async function loadThumbnails() {
     }
     if (found) break;
   }
-  for (let i=0; i<maxNum; i++){
+  for (let i = 0; i < maxNum; i++) {
     let puzzleName = puzzleList[i]
     let difName = puzzleName.split("/")[0];
     let puzzleCompletedName = puzzleName.split("/")[1];
@@ -93,7 +102,7 @@ export async function selectCategory(category) {
 
 export function renderImageGrid(items) {
   if (!dom.panelBody) return;
- 
+
   dom.panelBody.innerHTML = "";
   const grid = document.createElement("div");
   grid.className = "image-grid";
