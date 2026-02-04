@@ -42,6 +42,7 @@ export async function submitScore({ puzzleId, initials, timeMs, meta, pastProgre
   getTop10(puzzleId).then((data) => {
     if (data.ok) {
       renderLeaderBoard(data.top);
+      console.log("Top scores updated after submission.");
     } else {
       console.error("Failed to fetch top scores:", data.error);
     }

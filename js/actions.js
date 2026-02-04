@@ -71,7 +71,7 @@ export function wireCheckSolutionButton() {
           initials = initials.trim().toUpperCase();
           const pastProgressCount = Object.keys(pastProgress.completedPuzzles).length;
           try {
-            submitScore({
+            await submitScore({
               puzzleId: appState.curPuzzle.name,
               initials: initials.trim().toUpperCase(),
               timeMs: elapsedMs,
