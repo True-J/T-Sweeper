@@ -125,24 +125,6 @@ export function openRegionModal(cellCount) {
 
     dom.regionCancelBtn.onclick = () => cleanup(null);
 
-    // Handle auto-resolve checkbox change
-    /* -- Removed because I don't necissarily like this --
-    dom.regionAutoResolveInput.onchange = () => {
-      if (dom.regionAutoResolveInput.checked) {
-        // Hide region modal and show disqualification warning
-        dom.regionModalOverlay.classList.remove("show");
-        
-        requireDisqualifyConfirmation(
-          () => {
-            // User confirmed - show region modal again with checkbox still checked
-            dom.regionModalOverlay.classList.add("show");
-          },
-          "Using auto-resolve on regions will disqualify this puzzle from leaderboard submission.",
-          true // This is for the checkbox, not the final action
-        );
-      }
-    };*/
-
     dom.regionOkBtn.onclick = () => {
       const minM = Number(dom.regionMinInput.value);
       const maxM = Number(dom.regionMaxInput.value);
@@ -153,11 +135,6 @@ export function openRegionModal(cellCount) {
       if (maxM > cellCount) return alert("Maximum mines cannot exceed the number of cells in the region.");
 
       const autoResolveEnabled = dom.regionAutoResolveInput.checked;
-      
-      if (autoResolveEnabled) {
-        // Disqualify when confirming with auto-resolve enabled
-        appState.curPuzzle.isLeaderboardAttempt = false;
-      }
       
       cleanup({
         minMines: minM,

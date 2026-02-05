@@ -120,6 +120,7 @@ export function renderImageGrid(items) {
   grid.className = "image-grid";
 
   items.forEach((item) => {
+    if (document.getElementById(item.id)) document.getElementById(item.id).remove();
     const tile = document.createElement("button");
     tile.type = "button";
     tile.className = "image-tile";
