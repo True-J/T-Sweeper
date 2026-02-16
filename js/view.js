@@ -91,7 +91,6 @@ export async function loadThumbnails() {
     }
     thumbnails[difName].push(myObj);
   }
-  thumbnailsLoaded = true;
 }
 
 let currentCategory = "Easy"; // default
@@ -114,7 +113,10 @@ export async function selectCategory(category) {
   renderImageGrid(thumbnails[category]);
 }
 
-export var shouldLoadPuzzle = false;
+var shouldWeLoadPuzzle = false;
+export function shouldLoadPuzzle(changeTo) {
+  shouldWeLoadPuzzle = changeTo;
+}
 
 export function renderImageGrid(items) {
   if (!dom.panelBody) return;
@@ -157,7 +159,7 @@ export function renderImageGrid(items) {
     tile.append(img, label);
 
     tile.addEventListener("click", () => {
-      if (shouldLoadPuzzle){
+      if (shouldWeLoadPuzzle){
         loadPuzzle(item.puzzleNumber);
         setView("puzzleGameBox");
       } else {

@@ -25,7 +25,7 @@ dom.puzzleGameBox.style.display = "none";
 
 // Sidebar button wiring
 dom.menuBtn?.addEventListener("click", async () => {
-  shouldLoadPuzzle = true;
+  shouldLoadPuzzle(true);
   await loadThumbnails();
   setView("panel");
   const active = dom.railButtons.find((b) => b.classList.contains("active"));
@@ -34,7 +34,7 @@ dom.menuBtn?.addEventListener("click", async () => {
 loadThumbnails();
 
 dom.leaderBoardBtn?.addEventListener("click", async () => {
-  shouldLoadPuzzle = false;
+  shouldLoadPuzzle(false);
   await loadThumbnails();
   setView("panel");
   const active = dom.railButtons.find((b) => b.classList.contains("active"));
