@@ -9,7 +9,7 @@ const viewEls = {
   puzzleGameBox: dom.puzzleGameBox,
 };
 
-export function setView(viewName) {
+export async function setView(viewName) {
   Object.values(viewEls).forEach((el) => el && (el.style.display = "none"));
 
   // sidebar-only buttons visible while playing
@@ -17,8 +17,8 @@ export function setView(viewName) {
   dom.leaderBoard.style.display = "none";
 
   if (viewName === "panel") {
+    await refreshPanel();
     dom.panel && (dom.panel.style.display = "block");
-    refreshPanel();
     return;
   }
 
@@ -95,7 +95,7 @@ export async function loadThumbnails() {
 
 let currentCategory = "Easy"; // default
 
-export function refreshPanel() {
+export async function refreshPanel() {
   if (!currentCategory) return;
   let tempCategory = (currentCategory == "Easy") ? "Medium" : "Easy";
   loadThumbnails().then(() => {
@@ -104,6 +104,7 @@ export function refreshPanel() {
   loadThumbnails().then(() => {
     renderImageGrid(thumbnails[currentCategory]);
   });
+  return;
 }
 
 export async function selectCategory(category) {
