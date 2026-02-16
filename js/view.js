@@ -140,7 +140,6 @@ export function renderImageGrid(items) {
     const img = document.createElement("img");
     img.className = "thumb";
     img.src = item.picture;
-    img.alt = item.id;
 
     // Label (shown under image)
     const label = document.createElement("div");
