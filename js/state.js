@@ -15,8 +15,8 @@ export const appState = {
   puzzleTotalMines: 0,
 
   // timer
-  timerHandle: null,
-  timerStartMs: null,
+  timerElapsedMs: 0,
+  timerRunningStartMs: null, // Date.now() when running; null when paused
 
   // reset snapshot (player marks only)
   initialUnsolvedSnapshot: null,
@@ -156,11 +156,19 @@ export function isInProgress(puzzleName) {
  * @param {Array} regions - Current regions state
  * @param {Array} saves - Current saves state
  */
-export function savePuzzleProgress(puzzleName, progress, startTimeMs, isLeaderboardAttempt = false, notes = "", regions = null, saves = null) {
+export function savePuzzleProgress(
+  puzzleName,
+  progress,
+  elapsedMs,
+  isLeaderboardAttempt = false,
+  notes = "",
+  regions = null,
+  saves = null
+) {
   const puzzleState = {
     name: puzzleName,
     progress,
-    startTime: startTimeMs,
+    elapsedMs: elapsedMs,
     isLeaderboardAttempt,
     notes,
     regions: structuredClone(regions),

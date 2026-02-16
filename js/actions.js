@@ -2,7 +2,7 @@
 import { BOARD_SIZE, appState, markPuzzleCompleted, pastProgress } from "./state.js";
 import { dom } from "./dom.js";
 import { isEditableCell, getCellEl, applyPlayerMarks, capturePlayerMarks } from "./board.js";
-import { stopTimer, startTimer } from "./timer.js";
+import { stopTimer, startTimer, getElapsedMs } from "./timer.js";
 import { loadThumbnails } from "./view.js";
 import { showSolutionResult, requireDisqualifyConfirmation, setPendingRevealAction } from "./disqualify.js";
 import { computeTotalMinesFromSolved, computeCurrentFoundMines } from "./hud.js";
@@ -58,7 +58,7 @@ export function wireCheckSolutionButton() {
     
     if (wrong === 0) {
       stopTimer();
-      const elapsedMs = appState.timerStartMs ? Date.now() - appState.timerStartMs : 0;
+      const elapsedMs = getElapsedMs();
       markPuzzleCompleted(appState.curPuzzle.name, elapsedMs);
       await loadThumbnails();
       await showSolutionResult(true);
@@ -173,8 +173,7 @@ export function wireResetProgressButton() {
     const resetAction = () => {
       applyPlayerMarks(appState.initialUnsolvedSnapshot);
       // Restart the timer
-      appState.timerStartMs = Date.now();
-      startTimer();
+      startTimer(0);
     };
     
     requireDisqualifyConfirmation(

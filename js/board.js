@@ -326,7 +326,7 @@ export async function loadPuzzle(pNumber) {
     );
   } else {
     // Fresh puzzle start
-    startTimer(null);
+    startTimer(0);
   }
   
   // Refresh the UI to display restored regions and saves
@@ -369,7 +369,7 @@ function resumePuzzle(inProgressPuzzle) {
   renderRegionList();
   renderSaveList();
   // Resume timer with the original start time
-  startTimer(inProgressPuzzle.startTime);
+  startTimer(inProgressPuzzle.elapsedMs ?? 0);
 }
 
 function restartPuzzle() {
